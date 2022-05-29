@@ -27,7 +27,6 @@ RUN apt-get install -y \
     llvm-dev \
     llvm-10 \
     clang \
-    libasan \
     g++-multilib
 
 RUN apt-get -y install afl++
