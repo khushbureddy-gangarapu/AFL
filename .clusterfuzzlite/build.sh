@@ -5,6 +5,9 @@ set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
 git clone https://github.com/AFLplusplus/AFLplusplus
 
+cd .clusterfuzzlite/input
+xxd image.img
+
 cd AFLplusplus
 make all
 make install
