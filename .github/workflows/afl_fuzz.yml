@@ -1,56 +1,94 @@
-name: AFL
-
+name: CIFuzz
 on:
   push:
-    branches: [ master ]
-    
+    branches:
+      - master
+  
+      
   pull_request:
-    branches: [ master ]
-       
-
-permissions:
-  contents: read
-
-
-
-jobs:
-  AFL-Fuzzer:
-    runs-on: ubuntu-latest
-    env: 
-      AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES: 1
+    branches:
+      - master
     
+jobs:
+  build:
+
+    runs-on: ubuntu-latest    
+     
     steps:
-      - uses: actions/checkout@v3
-      - name: Compilation
-        run: |
-          make
-          cd llvm_mode
-          sudo apt-get install -y clang llvm-dev
-          set $LLVM_CONFIG=llvm-config-3.5
-          sudo make
-          cd ..
-          sudo make install
-          
+    
+      - uses: actions/checkout@v2
+        name: Check out code
         
-      - name: AFL Build
-        run: AFL_HARDEN=1 ./afl-gcc -fsanitize=address ReadFile/imgRead_Fuzzer.c -o ReadFile/imgRead_Fuzzer
-          
-          
-      - name: AFL Processing Image
-        run: |
-          cd ReadFile/input
-          xxd image.img
-          cd ..
-           
-      - name: AFL Run
-        run: |
-          afl-fuzz -i ReadFile/input/ -o ReadFile/output -m none -- ./ReadFile/imgRead_Fuzzer @@
-        
-       
-         
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.0
+      - name: Build and push docker image
+        uses: mr-smithers-excellent/docker-build-push@v4
         with:
-           # Artifact name
-          name: output
-          path: ReadFile/output
+          image: khushi2/oss-fuzz
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+  Fuzzing:
+   runs-on: ubuntu-latest
+   concurrency:
+      group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
+      cancel-in-progress: true
+   
+   strategy:
+        fail-fast: false
+        matrix:
+            sanitizer: 
+              - address
+            engine:
+               - afl
+            architecture:
+              - x86_64
+            include:
+              - engine: afl
+                sanitizer: address
+                architecture: x86_64
+                
+   env:
+      engine: afl
+      SANITIZER: address
+      ARCHITECTURE: x86_64
+      
+   
+   steps:
+     - uses: actions/checkout@v3
+     
+      
+     - name: Build Fuzzers (${{ matrix.sanitizer }})
+       id: build
+       uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+       with:
+        engine: afl
+        github-token: ${{ secrets.TOKEN }}    
+        language: c
+        dry-run: false
+        sanitizer: ${{ matrix.sanitizer }}
+        upload-build: true
+        keep-unaffected-fuzz-targets: true
+     
+        
+     - name: Run Fuzzers (${{ matrix.sanitizer }})
+       uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+       with:
+        engine: afl
+        github-token: ${{ secrets.TOKEN }}
+        language: c
+        fuzz-seconds: 800
+        mode: 'batch'
+        dry-run: false
+        report-unreproducible-crashes: true
+        keep-unaffected-fuzz-targets: true
+        sanitizer: ${{ matrix.sanitizer }} 
+        
+     - name: Compile and Fuzz
+       run: |
+            cd AFLplusplus
+            
+            ./afl-fuzz -i input/ -o output -m none -- ./imgRead @@
+       
+        
+        
+        
