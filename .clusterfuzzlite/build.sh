@@ -3,7 +3,7 @@ CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
 export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
-cd input
+cd $SRC/.clusterfuzzlite/input
 xxd image.img
 
 git clone https://github.com/AFLplusplus/AFLplusplus
