@@ -4,6 +4,7 @@ export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
 cd $SRC/.clusterfuzzlite/input
+ls -lrth
 xxd image.img
 
 git clone https://github.com/AFLplusplus/AFLplusplus
