@@ -50,14 +50,26 @@ jobs:
       
    
    steps:
-     - uses: actions/checkout@v3        
+     - uses: actions/checkout@v3
+     
+     - name: Build Fuzzers (${{ matrix.sanitizer }})
+       id: build
+       uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+       with:
+        ENGINE: ${{ matrix.engine }}
+        github-token: ${{ secrets.TOKEN }}
+        language: c
+        fuzz-seconds: 200
+        dry-run: false
+        sanitizer: ${{ matrix.sanitizer }}
+        upload-build: true
+        keep-unaffected-fuzz-targets: true
         
      - name: Compile and Run Fuzzers (${{ matrix.sanitizer }})
        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
        with:
         ENGINE: ${{ matrix.engine }}
         github-token: ${{ secrets.TOKEN }}
-        sanitizer: ${{ matrix.sanitizer }}
         language: c
         fuzz-seconds: 200
         dry-run: false
