@@ -20,5 +20,5 @@
 
 # Build fuzzers in $OUT.
 for fuzzer in $(find $SRC -name 'imgRead.c'); do
-  compile_c_fuzzer $fuzzer
+  compiler.c_fuzzer $fuzzer
 done
