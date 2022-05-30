@@ -17,4 +17,3 @@ ls -lrth
 
 ./afl-cc -fsanitize=address,undefined -ggdb imgRead.c -o imgRead
 ./afl-fuzz -i $SRC/.clusterfuzzlite/input/ -o output -m none -- ./imgRead @@
-time.sleep(20)
