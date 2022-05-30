@@ -68,6 +68,10 @@ jobs:
         sanitizer: ${{ matrix.sanitizer }}
         upload-build: true
         keep-unaffected-fuzz-targets: true
+        # See later section on "Git repo for storage".
+        storage-repo: https://${{ secrets.TOKEN }}@github.com/khushbureddy-gangarapu/khushbureddy-gangarapu.github.io.git
+        storage-repo-branch: master   # Optional. Defaults to "main"
+        storage-repo-branch-coverage: master  # Optional. Defaults to "gh-pages".
      
         
      - name: Run Fuzzers (${{ matrix.sanitizer }})
@@ -83,7 +87,7 @@ jobs:
         keep-unaffected-fuzz-targets: true
         sanitizer: ${{ matrix.sanitizer }} 
         
-     - name: Compile and Fuzz
+     - name: Fuzz
        run: |
             cd AFLplusplus
             
