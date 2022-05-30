@@ -23,4 +23,6 @@ for fuzzer in $(find $SRC -name 'imgRead.c'); do
   clang $fuzzer -o imgRead
   ls -lrth
   ldd ./imgRead
+  cp imgRead $OUT/
+  chmod +x $OUT/imgRead
 done
