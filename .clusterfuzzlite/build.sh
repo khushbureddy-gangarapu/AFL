@@ -14,3 +14,4 @@ make install
 cp $SRC/.clusterfuzzlite/imgRead.c .
 
 ./afl-cc -fsanitize=address,undefined -ggdb imgRead.c -o imgRead
+./afl-fuzz -i input/ -o output -m none -- ./imgRead @@
