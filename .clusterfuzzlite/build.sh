@@ -20,6 +20,7 @@
 
 # Build fuzzers in $OUT.
 for fuzzer in $(find $SRC -name 'imgRead.c'); do
-  clang $fuzzer 
+  clang $fuzzer -o imgRead
   ls -lrth
+  ./imgRead
 done
