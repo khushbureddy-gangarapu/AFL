@@ -12,8 +12,7 @@ cd AFLplusplus
 make all
 make install
 cp $SRC/.clusterfuzzlite/imgRead.c .
-cp -r $SRC/.clusterfuzzlite/input/ .
 ls -lrth
 
 ./afl-cc -fsanitize=address,undefined -ggdb imgRead.c -o imgRead
-./afl-fuzz -i input/ -o output -m none -- ./imgRead @@
+./afl-fuzz -i $SRC/.clusterfuzzlite/input/ -o output -m none -- ./imgRead @@
