@@ -22,7 +22,7 @@
 for fuzzer in $(find $SRC -name 'imgRead.c'); do
   clang -fsanitize=address $fuzzer -o imgRead
   ls -lrth
-  ld ./imgRead
+  ldd ./imgRead
   cp imgRead $OUT/
   chmod +x $OUT/imgRead
 done
