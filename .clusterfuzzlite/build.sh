@@ -17,7 +17,7 @@
 # Build fuzzers into $OUT. These could be detected in other ways.
 for fuzzer in $(find $SRC -name 'imgRead.c'); do
   fuzzer_basename=$(basename -s .c $fuzzer)
-  fuzzer_package=${fuzzer_basename}
+  fuzzer_package=${fuzzer_basename}.pkg
 
   # Create execution wrapper. Atheris requires that certain libraries are
   # preloaded, so this is also done here to ensure compatibility and simplify
