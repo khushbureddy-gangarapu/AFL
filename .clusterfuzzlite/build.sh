@@ -21,8 +21,8 @@
 # Build fuzzers in $OUT.
 for fuzzer in $(find $SRC -name 'imgRead.c'); do
   clang -fsanitize=address $fuzzer -o imgRead
-  ls -lrth
   ldd ./imgRead
   cp imgRead $OUT/
-  chmod +x $OUT/imgRead
+  cp $fuzzer $OUT/
+  chmod +x $OUT/
 done
