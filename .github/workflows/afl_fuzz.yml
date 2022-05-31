@@ -40,14 +40,12 @@ jobs:
               - address
             engine:
                - afl
-            architecture:
-              - x86_64
+            
             
    env:
       ENGINE: ${{ matrix.engine }}
       SANITIZER: ${{ matrix.sanitizer }}
-      ARCHITECTURE: ${{ matrix.architecture }}
-      
+            
    
    steps:
      - uses: actions/checkout@v3
