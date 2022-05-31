@@ -14,18 +14,13 @@
 # limitations under the License.
 #
 ################################################################################
+set -e
+CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
+export CC CXX
+set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
-# Build and install project (using current CFLAGS, CXXFLAGS).
-
-#!/bin/bash -eu
-
-./buildconf.sh
-# configure scripts usually use correct environment variables.
-./configure
-
-make clean
-make -j$(nproc) all
-
-$CXX $CXXFLAGS -std=c++11 -Ilib/ \
-    $SRC/imgRead.c -o $OUT/imgRead \
-    $LIB_FUZZING_ENGINE .libs/libFuzzingEngine.a
+$CC -fsanitize=address imgRead.c -o imgRead
+# Test out the build by fuzzing it.
+./imgRead -runs=10
+# Create a fuzzer build to upload to ClusterFuzz.
+zip imgRead-build.zip imgRead
