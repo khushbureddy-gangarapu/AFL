@@ -19,7 +19,7 @@ CC=clang  CXX=clang++ CFLAGS=-fsanitize=address
 export CC CXX
 set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
-$CC -fsanitize=address imgRead.c -o imgRead
+$CC -fsanitize=address $SRC/.clusterfuzzlite/imgRead.c -o imgRead
 # Test out the build by fuzzing it.
 ./imgRead -runs=10
 # Create a fuzzer build to upload to ClusterFuzz.
