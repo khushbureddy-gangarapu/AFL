@@ -57,7 +57,6 @@ ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 ENV gcc=/usr/bin/gcc.exe 
-ENV gcc=gcc-7-plugin-dev
 RUN export CC=clang && export CXX=clang++
 RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
 
