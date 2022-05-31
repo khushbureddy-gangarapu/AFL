@@ -25,7 +25,7 @@ RUN apt-get install -y \
     gdb \
     llvm-dev \
     llvm-10 \
-    clang \
+    clang 
  
 
 RUN apt-get -y install afl++
@@ -56,8 +56,7 @@ ENV LLVM_CONFIG=llvm-config-10
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-RUN export CC=clang && export CXX=clang++
-RUN export LLVM_CONFIG=/usr/bin/llvm-config-10
+
 
 WORKDIR AFL
 COPY . $SRC/
