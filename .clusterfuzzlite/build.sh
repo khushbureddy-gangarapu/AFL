@@ -17,12 +17,15 @@
 
 # Build and install project (using current CFLAGS, CXXFLAGS).
 
+#!/bin/bash -eu
 
-# Build fuzzers in $OUT.
-for fuzzer in $(find $SRC -name 'imgRead.c'); do
-  clang -fsanitize=address $fuzzer -o imgRead
-  ldd ./imgRead
-  cp imgRead $OUT/
-  cp $fuzzer $OUT/
-  chmod +x $OUT/
-done
+./buildconf.sh
+# configure scripts usually use correct environment variables.
+./configure
+
+make clean
+make -j$(nproc) all
+
+$CXX $CXXFLAGS -std=c++11 -Ilib/ \
+    $SRC/imgRead.c -o $OUT/imgRead \
+    $LIB_FUZZING_ENGINE .libs/libFuzzingEngine.a
