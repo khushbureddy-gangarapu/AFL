@@ -20,7 +20,6 @@ RUN apt-get install -y \
     libc6-dev \
     libc++-dev \
     gcc \
-    g++ \
     make \
     wget \
     gdb \
@@ -54,8 +53,6 @@ RUN apt-get install -y llvm-10 llvm-10-dev clang-10 || apt-get install -y llvm l
 RUN apt-get install -y ninja-build # for QEMU mode
 
 ENV LLVM_CONFIG=llvm-config-10
-ENV gcc=/usr/bin/gcc.exe 
-ENV gcc=gcc-7-plugin-dev
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
