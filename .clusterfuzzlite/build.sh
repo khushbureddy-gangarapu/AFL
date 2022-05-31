@@ -21,6 +21,6 @@ set $LLVM_CONFIG=/usr/bin/llvm-config-10
 
 $CC -fsanitize=address $SRC/.clusterfuzzlite/imgRead.c -o imgRead
 # Test out the build by fuzzing it.
-./imgRead -runs=10
+chmod +x ./imgRead -runs=10
 # Create a fuzzer build to upload to ClusterFuzz.
 zip imgRead-build.zip imgRead
