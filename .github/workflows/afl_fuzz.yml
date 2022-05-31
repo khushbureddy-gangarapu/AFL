@@ -56,7 +56,7 @@ jobs:
        with:
         ENGINE: ${{ matrix.engine }}
         github-token: ${{ secrets.TOKEN }}
-        language: c
+        language: c++
         fuzz-seconds: 200
         dry-run: false
         sanitizer: ${{ matrix.sanitizer }}
@@ -68,7 +68,7 @@ jobs:
        with:
         ENGINE: ${{ matrix.engine }}
         github-token: ${{ secrets.TOKEN }}
-        language: c
+        language: c++
         fuzz-seconds: 200
         dry-run: false
         report-unreproducible-crashes: true
