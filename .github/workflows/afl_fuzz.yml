@@ -39,7 +39,7 @@ jobs:
             sanitizer: 
               - address
             engine:
-               - libfuzzer
+               - afl
             
             
    env:
