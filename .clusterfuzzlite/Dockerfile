@@ -52,6 +52,7 @@ RUN apt-get install -y build-essential python3-dev automake cmake git flex bison
 RUN apt-get install -y llvm-10 llvm-10-dev clang-10 || apt-get install -y llvm llvm-dev clang
 RUN apt-get install -y ninja-build # for QEMU mode
 
+ENV FUZZING_ENGINE=afl
 ENV LLVM_CONFIG=llvm-config-10
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_TRY_AFFINITY=1
